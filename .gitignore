@@ -1,0 +1,10 @@
+node_modules
+BugTrap*
+linux*
+ragemp-server*
+websocat*
+plugins
+bin
+maps
+dotnet
+client_packages/.listcache
