@@ -3,8 +3,8 @@ Brief
 
 If I run ragemp-server on my OVH VPS (70ms+ ping), I can reliably
 reproduce the out-of-order issue when I send ~40 events in a row, and
-some of the events received by the client in the wrong order. I don't
-think that I really need to send so many events in a row but it
+some of the events received by the client are in the wrong order. I
+don't think that I really need to send so many events in a row but it
 greatly increases the chance of failure. In case of 500+ players
 online the issue appears pretty often even if I send 5 consecutive
 events.
@@ -51,19 +51,19 @@ How to reproduce
   1. `git clone https://github.com/3ap/ragemp-out-of-order-bug`
   2. `cd ragemp-out-of-order-bug`
   3. `npm install`
-  4. Copy server files (ragemp-server & bin) into this
-     directory
+  4. Copy server files (ragemp-server, bin and BugTrap-x64.dll if
+     you're using Windows) into ragemp-out-of-order-bug directory
   5. Run the ragemp-server
-  6. Open the Terminal and run [wscat] or [websocat] to connect to 127.0.0.1:8001:
+  6. Open the Terminal and install and run `wscat` to connect to
+     WebSocket:
 
   ```
-  .\websocat.x86_64-pc-windows-gnu.exe ws://127.0.0.1:8001
-  # OR
+  npm install --global wscat
   wscat --connect 127.0.0.1:8001
   ```
 
   7. Connect to the server via RageMP client and waits until you
-     spawned
+     spawned in the game
 
   8. Copy and run this code snippet via WebSocket several times (1-5,
      use Up button to speed this process up)
@@ -72,13 +72,18 @@ How to reproduce
   for (i=0;i<20;i++) { let player = mp.players[0]; player.call("_removeDynamicMarkersByUniqName", ["CollectorATM"]); player.call("_createDynamicMarkersByParams", [{ uniqName: `CollectorATM`, color: [38, 81, 0, 255], position: new mp.Vector3(459.78, -142.90, 61.66), scale: 2 }]); }
   ```
 
-  9. Open your ragemp client directory, and then clientdata/console.txt
+  9. Open your ragemp client directory, and then open
+     clientdata/console.txt with your favorite text editor, e.g. Notepad
 
   10. Try to find the case when two similar lines appeared or use
-      this shell script to find it
+      this shell script to find it:
 
-  ```
-  cat console.txt  | uniq -c | grep -a -v 1
+  ```bash
+  → cat console.txt  | uniq -c | grep -a -v 1; > console.txt
+        2 removeDynamicMarkersByUniqName CollectorATM
+        2 createDynamicMarkersByParams CollectorATM
+        2 removeDynamicMarkersByUniqName CollectorATM
+        2 createDynamicMarkersByParams CollectorATM
   ```
 
   11. You should find something like that:
@@ -92,7 +97,7 @@ How to reproduce
   ...
   ```
 
-  In case of real server code such situation means that client will
+  In case of a real server code such situation means that client will
   remove the marker AFTER creating it, and it's unacceptable and it
   ruins the code logic and game experience.
 
