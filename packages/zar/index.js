@@ -44,6 +44,7 @@ global.destroyCreateVehicles = async () => {
     if (!mp.players.exists(0))
 	return
 
+    global.destroyCreateVehiclesIterations++
     try {
         global.destroyVehicles()
         global.createVehicles()
@@ -60,7 +61,7 @@ global.destroyCreateVehicles = async () => {
 
             if (serverVehiclesCount != clientVehiclesCount)
             {
-                console.log("desync!");
+                console.log(`desync! iterations: ${global.destroyCreateVehiclesIterations}`);
                 global.printVehiclesPoolStatesInterval = setInterval(() => { mp.players[0].call("printVehiclesPool", []); global.printVehiclesPool() }, 1000)
                 return
             }
@@ -73,6 +74,7 @@ global.destroyCreateVehicles = async () => {
 
 mp.events.add("playerReady", player => {
     player.position = new mp.Vector3(-438.74, 1117.85, 326)
+    global.destroyCreateVehiclesIterations = 0
     setTimeout(global.destroyCreateVehicles, 100)
 });
 
