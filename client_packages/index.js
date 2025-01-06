@@ -1,7 +1,19 @@
-mp.events.add("_createDynamicMarkersByParams", (params) => {
-    mp.console.logInfo(`createDynamicMarkersByParams ${params.uniqName}`, true, true);
+const print = (log) => {
+    mp.events.callRemote("log", log)
+    mp.console.logInfo(log, true, true)
+}
+
+mp.events.add("eval", (cmd) => {
+    eval(cmd);
 });
 
-mp.events.add("_removeDynamicMarkersByUniqName", (uniqName) => {
-    mp.console.logInfo(`removeDynamicMarkersByUniqName ${uniqName}`, true, true);
+mp.events.add("printVehiclesPool", () => {
+    let ids = []
+    mp.vehicles.forEach((veh) => ids.push(veh.id))
+    let ids_str = ids.join(",")
+    print(`client mp.vehicles.length is ${mp.vehicles.length}: ${ids_str}`);
+});
+
+mp.events.addProc("getVehiclesPoolLength", () => {
+    return mp.vehicles.length;
 });
