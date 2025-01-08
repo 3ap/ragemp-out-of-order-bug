@@ -1,7 +1,7 @@
 const ws = require('ws');
 const util = require('util')
 const { performance } = require('perf_hooks')
-const wss = new ws.Server({ host: "127.0.0.1", port: 8001 });
+const wss = new ws.Server({ host: "127.0.0.1", port: 8002 });
 
 wss.on('connection', function connection(ws) {
     ws.on('error', console.error);
