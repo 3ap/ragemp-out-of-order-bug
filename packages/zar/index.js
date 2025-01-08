@@ -30,7 +30,7 @@ global.printVehiclesPool = () =>
     console.log(`server mp.vehicles.length is ${mp.vehicles.length}: ${ids_str}`);
 }
 
-require("./vehicles")
+require("./vehicles-queue")
 global.createVehicles = async () => {
     console.log("createVehicles");
     for(let i=0;i<AMOUNT_OF_VEHICLES_TO_CREATE;i++)
