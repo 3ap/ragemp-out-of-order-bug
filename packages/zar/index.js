@@ -42,7 +42,7 @@ global.destroyVehicles = () => {
 
 global.destroyCreateVehicles = async () => {
     if (!mp.players.exists(0))
-	return
+        return
 
     global.destroyCreateVehiclesIterations++
     try {
@@ -86,6 +86,7 @@ mp.events.add("playerQuit", (player) => {
         global.printVehiclesPoolStatesInterval = undefined
     }
 });
+
 mp.events.add("log", (player, log) => {
     console.log(log);
 });
