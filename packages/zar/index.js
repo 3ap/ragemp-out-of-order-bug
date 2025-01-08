@@ -67,6 +67,7 @@ global.destroyCreateVehicles = async () => {
             }
         }
     } catch(error) {
+        console.log(error)
     }
 
     setTimeout(global.destroyCreateVehicles, 100)
