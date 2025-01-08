@@ -30,14 +30,17 @@ global.printVehiclesPool = () =>
     console.log(`server mp.vehicles.length is ${mp.vehicles.length}: ${ids_str}`);
 }
 
-global.createVehicles = () => {
+require("./vehicles")
+global.createVehicles = async () => {
+    console.log("createVehicles");
     for(let i=0;i<AMOUNT_OF_VEHICLES_TO_CREATE;i++)
-        global.vehicles[i] = mp.vehicles.new(mp.joaat("tursimo"), new mp.Vector3(-431.74-i*2, 1137.85, 326))
+        global.vehicles[i] = await global.createVehicle(mp.joaat("tursimo"), new mp.Vector3(-431.74-i*2, 1137.85, 326))
 }
 
-global.destroyVehicles = () => {
+global.destroyVehicles = async () => {
+    console.log("destroyVehicles");
     for(let i=0;i<AMOUNT_OF_VEHICLES_TO_CREATE;i++)
-        global.vehicles[i].destroy()
+        await global.destroyVehicle(global.vehicles[i])
 }
 
 global.destroyCreateVehicles = async () => {
@@ -46,8 +49,8 @@ global.destroyCreateVehicles = async () => {
 
     global.destroyCreateVehiclesIterations++
     try {
-        global.destroyVehicles()
-        global.createVehicles()
+        await global.destroyVehicles()
+        await global.createVehicles()
 
         let serverVehiclesCount = mp.vehicles.length;
         let clientVehiclesCount = await mp.players[0].callProc("getVehiclesPoolLength", []);
