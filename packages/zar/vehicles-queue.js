@@ -1,5 +1,5 @@
 global.vehiclesTaskQueue = [];
-global.vehiclesTaskQueueDelay = 5/*ms*/;
+global.vehiclesTaskQueueDelay = 10/*ms*/;
 
 global.createVehicle = (model, position, params) => {
     return new Promise((resolve, reject) => {
@@ -21,23 +21,14 @@ global.vehiclesTaskQueueProcess = async () => {
         {
             case "create":
                 let vehicle = mp.vehicles.new(task.model, task.position, task.params);
-                console.log(`create vehicle ID=${vehicle.id}`);
+                // console.log(`${i} create vehicle ID=${vehicle.id}`);
                 resolve(vehicle);
                 break;
 
             case "destroy":
-                let result
-                if (mp.vehicles.exists(task.vehicleid))
-                {
-                    mp.vehicles.at(task.vehicleid).destroy();
-                    result = true;
-                }
-                else
-                {
-                    result = false;
-                }
-                console.log(`destroy vehicle ID=${task.vehicleid}, ${result}`);
-                resolve(result);
+                mp.vehicles.at(task.vehicleid).destroy();
+                // console.log(`${i} destroy vehicle ID=${task.vehicleid}, ${result}`);
+                resolve();
                 break;
         }
     }
