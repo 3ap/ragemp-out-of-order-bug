@@ -43,14 +43,34 @@ global.destroyVehicles = async () => {
         await global.destroyVehicle(global.vehicles[i])
 }
 
+function shuffle(array) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
+
 global.destroyCreateVehicles = async () => {
     if (!mp.players.exists(0))
         return
 
     global.destroyCreateVehiclesIterations++
     try {
-        await global.destroyVehicles()
-        await global.createVehicles()
+        let ids = Array.from(Array(AMOUNT_OF_VEHICLES_TO_CREATE).keys());
+        shuffle(ids);
+        for (const id of ids) {
+            await global.destroyVehicle(global.vehicles[id])
+            global.vehicles[id] = await global.createVehicle(mp.joaat("tursimo"), new mp.Vector3(-431.74-id*2, 1137.85, 326))
+        }
 
         let serverVehiclesCount = mp.vehicles.length;
         let clientVehiclesCount = await mp.players[0].callProc("getVehiclesPoolLength", []);
