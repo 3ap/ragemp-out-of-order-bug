@@ -9,7 +9,7 @@ mp.events.add("eval", (cmd) => {
 
 mp.events.add("printVehiclesPool", () => {
     let ids = []
-    mp.vehicles.forEach((veh) => ids.push(veh.id))
+    mp.vehicles.forEach((veh) => ids.push(veh.remoteId))
     let ids_str = ids.join(",")
     print(`client mp.vehicles.length is ${mp.vehicles.length}: ${ids_str}`);
 });
