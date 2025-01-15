@@ -60,7 +60,7 @@ function shuffle(array) {
 }
 
 global.destroyCreateVehicles = async () => {
-    if (!mp.players.exists(0))
+    if (!mp.players.exists(0) || global.stop)
         return
 
     global.destroyCreateVehiclesIterations++
@@ -115,3 +115,4 @@ mp.events.add("log", (player, log) => {
 });
 
 global.createVehicles()
+global.stop = false
