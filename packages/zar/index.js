@@ -102,7 +102,7 @@ global.destroyCreateVehicles = async () => {
         console.log(error)
     }
 
-    setTimeout(global.destroyCreateVehicles, 100)
+    setTimeout(global.destroyCreateVehicles, global.delay)
 };
 
 mp.events.add("playerReady", player => {
@@ -125,3 +125,4 @@ mp.events.add("log", (player, log) => {
 
 global.createVehicles()
 global.stop = false
+global.delay = 100
