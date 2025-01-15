@@ -1,13 +1,13 @@
 global.vehiclesTaskQueue = [];
 global.vehiclesTaskQueueDelay = 10/*ms*/;
 
-global.createVehicle = (model, position, params) => {
+global.createVehicle = (source, model, position, params) => {
     return new Promise((resolve, reject) => {
         vehiclesTaskQueue.push({ task: { action: "create", model, position, params }, resolve });
     });
 }
 
-global.destroyVehicle = (vehicle) => {
+global.destroyVehicle = (source, vehicle) => {
     return new Promise((resolve, reject) => {
         vehiclesTaskQueue.push({ task: { action: "destroy", vehicleid: vehicle.id }, resolve });
     });

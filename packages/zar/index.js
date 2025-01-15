@@ -34,13 +34,13 @@ require("./vehicles-queue")
 global.createVehicles = async () => {
     console.log("createVehicles");
     for(let i=0;i<AMOUNT_OF_VEHICLES_TO_CREATE;i++)
-        global.vehicles[i] = await global.createVehicle(mp.joaat("tursimo"), new mp.Vector3(-431.74-i*2, 1137.85, 326))
+        global.vehicles[i] = await global.createVehicle("main", mp.joaat("tursimo"), new mp.Vector3(-431.74-i*2, 1137.85, 326))
 }
 
 global.destroyVehicles = async () => {
     console.log("destroyVehicles");
     for(let i=0;i<AMOUNT_OF_VEHICLES_TO_CREATE;i++)
-        await global.destroyVehicle(global.vehicles[i])
+        await global.destroyVehicle("main", global.vehicles[i])
 }
 
 function shuffle(array) {
@@ -68,8 +68,8 @@ global.destroyCreateVehicles = async () => {
         let ids = Array.from(Array(AMOUNT_OF_VEHICLES_TO_CREATE).keys());
         shuffle(ids);
         for (const id of ids) {
-            await global.destroyVehicle(global.vehicles[id])
-            global.vehicles[id] = await global.createVehicle(mp.joaat("tursimo"), new mp.Vector3(-431.74-id*2, 1137.85, 326))
+            await global.destroyVehicle("main", global.vehicles[id])
+            global.vehicles[id] = await global.createVehicle("main", mp.joaat("tursimo"), new mp.Vector3(-431.74-id*2, 1137.85, 326))
         }
 
         let serverVehiclesCount = mp.vehicles.length;
