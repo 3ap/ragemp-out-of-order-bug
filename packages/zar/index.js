@@ -67,9 +67,18 @@ global.destroyCreateVehicles = async () => {
     try {
         let ids = Array.from(Array(AMOUNT_OF_VEHICLES_TO_CREATE).keys());
         shuffle(ids);
+
+        let model
         for (const id of ids) {
+            if (id%3 == 0)
+                model = mp.joaat("turismor")
+            else if(id%3 == 1)
+                model = mp.joaat("bifta")
+            else if(id%3 == 2)
+                model = mp.joaat("trophytruck")
+
             await global.destroyVehicle("main", global.vehicles[id])
-            global.vehicles[id] = await global.createVehicle("main", mp.joaat("tursimo"), new mp.Vector3(-431.74-id*2, 1137.85, 326))
+            global.vehicles[id] = await global.createVehicle("main", model, new mp.Vector3(-431.74-id*2, 1137.85, 326))
         }
 
         let serverVehiclesCount = mp.vehicles.length;
